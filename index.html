@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dilma Quest</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.game {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(#42baff, #a4e6ff 75%, #d8f5ff);
+}
+
+/* SOL */
+.sun {
+  position: absolute;
+  top: 65px;
+  right: 12%;
+  width: 105px;
+  height: 105px;
+  border-radius: 50%;
+  background: #fff2a6;
+  box-shadow: 0 0 70px #fff0a0;
+}
+
+/* NUVENS */
+.cloud {
+  position: absolute;
+  width: 115px;
+  height: 38px;
+  background: white;
+  border-radius: 50px;
+  box-shadow: 25px -20px 0 5px white,
+              65px -10px 0 8px white;
+  animation: cloudMove 35s linear infinite;
+}
+
+.cloud.one { top: 100px; left: 8%; }
+.cloud.two { top: 190px; left: 48%; transform: scale(.8); }
+.cloud.three { top: 75px; left: 78%; transform: scale(.7); }
+
+@keyframes cloudMove {
+  from { translate: -30px 0; }
+  to { translate: 80px 0; }
+}
+
+/* MONTANHAS */
+.mountain {
+  position: absolute;
+  bottom: 160px;
+  width: 100%;
+  height: 310px;
+  background: #91c9a1;
+  clip-path: polygon(0 100%, 0 65%, 18% 15%, 34% 75%,
+  51% 5%, 70% 75%, 85% 20%, 100% 75%, 100% 100%);
+}
+
+.mountain.back {
+  bottom: 180px;
+  background: #b4dfb5;
+  transform: scale(1.15);
+}
+
+.mountain.front {
+  background: #559d70;
+  height: 220px;
+  bottom: 115px;
+  clip-path: polygon(0 100%, 0 65%, 20% 20%, 38% 80%,
+  60% 15%, 80% 75%, 100% 35%, 100% 100%);
+}
+
+/* COLINAS */
+.hill {
+  position: absolute;
+  bottom: 65px;
+  width: 120%;
+  height: 190px;
+  left: -10%;
+  background: #65c96a;
+  border-radius: 50% 50% 0 0;
+}
+
+/* ÁRVORES */
+.tree {
+  position: absolute;
+  bottom: 75px;
+  width: 28px;
+  height: 100px;
+  background: #80502e;
+  border-radius: 5px;
+  z-index: 2;
+}
+
+.tree::before {
+  content: "";
+  position: absolute;
+  width: 90px;
+  height: 95px;
+  top: -65px;
+  left: -31px;
+  border-radius: 45%;
+  background: #218b42;
+  box-shadow: 18px -15px 0 #36aa50;
+}
+
+.tree.t1 { left: 8%; transform: scale(1.1); }
+.tree.t2 { left: 40%; transform: scale(.8); }
+.tree.t3 { right: 9%; transform: scale(1.3); }
+
+/* ARBUSTOS */
+.bush {
+  position: absolute;
+  bottom: 75px;
+  width: 75px;
+  height: 35px;
+  background: #2d9d46;
+  border-radius: 50%;
+  z-index: 3;
+  box-shadow: 20px -12px 0 #3dbb50,
+              40px 0 0 #258c3d;
+}
+
+.bush.b1 { left: 25%; }
+.bush.b2 { right: 30%; }
+
+/* CHÃO */
+.ground {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 85px;
+  background: #a96a38;
+  border-top: 17px solid #4acb4f;
+  z-index: 5;
+}
+
+.ground::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(#75451f 2px, transparent 3px);
+  background-size: 35px 30px;
+  opacity: .45;
+}
+
+/* PLATAFORMAS */
+.platform {
+  position: absolute;
+  height: 35px;
+  background: #a86635;
+  border-top: 10px solid #55d64e;
+  border-radius: 5px;
+  box-shadow: 0 6px 0 #75421e;
+  z-index: 4;
+}
+
+.platform.p1 { width: 190px; left: 15%; bottom: 235px; }
+.platform.p2 { width: 180px; left: 43%; bottom: 335px; }
+.platform.p3 { width: 190px; right: 10%; bottom: 235px; }
+
+/* BLOCOS */
+.block {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #ffdc69, #ed9e27);
+  border: 4px solid #a85b20;
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 3px #ffeaa0, 0 4px 0 #8a4d21;
+  z-index: 4;
+}
+
+.block.b1 { left: 28%; bottom: 290px; }
+.block.b2 { left: 55%; bottom: 390px; }
+.block.b3 { right: 23%; bottom: 290px; }
+
+/* MOEDAS */
+.coin {
+  position: absolute;
+  width: 27px;
+  height: 35px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #e99c00, #fff27a, #e99c00);
+  border: 3px solid #d18b00;
+  box-shadow: 0 0 12px #ffe36b;
+  z-index: 4;
+  animation: coinFloat 1.2s ease-in-out infinite alternate;
+}
+
+.coin.c1 { left: 22%; bottom: 285px; }
+.coin.c2 { left: 47%; bottom: 390px; }
+.coin.c3 { right: 19%; bottom: 285px; }
+
+@keyframes coinFloat {
+  to { transform: translateY(-9px) scaleX(.8); }
+}
+
+/* FLORES */
+.flower {
+  position: absolute;
+  z-index: 4;
+  bottom: 85px;
+  font-size: 27px;
+}
+
+.flower.f1 { left: 18%; }
+.flower.f2 { left: 53%; }
+.flower.f3 { right: 20%; }
+
+/* PERSONAGEM */
+.player {
+  position: absolute;
+  z-index: 10;
+  bottom: 85px;
+  left: 8%;
+  width: 65px;
+  height: 110px;
+  animation: idle 1.1s ease-in-out infinite alternate;
+}
+
+@keyframes idle {
+  to { transform: translateY(-4px); }
+}
+
+/* CABEÇA */
+.player-head {
+  position: absolute;
+  top: 0;
+  left: 7px;
+  width: 51px;
+  height: 51px;
+  border: 3px solid #51321f;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #f5d2ad;
+  z-index: 3;
+}
+
+.player-head img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* CORPO */
+.player-body {
+  position: absolute;
+  top: 46px;
+  left: 8px;
+  width: 48px;
+  height: 43px;
+  background: #e83e55;
+  border: 3px solid #713044;
+  border-radius: 10px 10px 5px 5px;
+}
+
+.player-body::before,
+.player-body::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  width: 14px;
+  height: 32px;
+  background: #e83e55;
+  border: 3px solid #713044;
+  border-radius: 10px;
+}
+
+.player-body::before { left: -15px; transform: rotate(15deg); }
+.player-body::after { right: -15px; transform: rotate(-15deg); }
+
+/* PERNAS */
+.leg {
+  position: absolute;
+  top: 83px;
+  width: 19px;
+  height: 25px;
+  background: #345cbd;
+  border: 3px solid #263b78;
+  border-radius: 5px;
+}
+
+.leg.left { left: 12px; }
+.leg.right { right: 12px; }
+
+/* TÍTULO */
+.logo {
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  color: white;
+  font-size: clamp(25px, 4vw, 48px);
+  font-weight: 1000;
+  letter-spacing: 3px;
+  text-shadow: 4px 5px 0 #267b43,
+               0 0 15px #ffffff;
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+  <div class="logo">DILMA QUEST</div>
+
+  <div class="sun"></div>
+
+  <div class="cloud one"></div>
+  <div class="cloud two"></div>
+  <div class="cloud three"></div>
+
+  <div class="mountain back"></div>
+  <div class="mountain"></div>
+  <div class="mountain front"></div>
+
+  <div class="hill"></div>
+
+  <div class="tree t1"></div>
+  <div class="tree t2"></div>
+  <div class="tree t3"></div>
+
+  <div class="bush b1"></div>
+  <div class="bush b2"></div>
+
+  <div class="platform p1"></div>
+  <div class="platform p2"></div>
+  <div class="platform p3"></div>
+
+  <div class="block b1"></div>
+  <div class="block b2"></div>
+  <div class="block b3"></div>
+
+  <div class="coin c1"></div>
+  <div class="coin c2"></div>
+  <div class="coin c3"></div>
+
+  <div class="flower f1">🌼</div>
+  <div class="flower f2">🌷</div>
+  <div class="flower f3">🌻</div>
+
+  <div class="player">
+    <div class="player-head">
+      <img src="dilma.png" alt="Rosto da professora Dilma">
+    </div>
+    <div class="player-body"></div>
+    <div class="leg left"></div>
+    <div class="leg right"></div>
+  </div>
+
+  <div class="ground"></div>
+
+</div>
+
+</body>
+</html>
